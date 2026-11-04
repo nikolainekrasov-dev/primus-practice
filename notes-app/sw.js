@@ -1,4 +1,4 @@
-const CACHE = 'notes-v1.2';
+const CACHE = 'notes-v1.3';
 const FILES = [
   './', 'index.html', 'css/style.css', 'js/app.js', 'js/storage-sqlite.js', 'js/storage-files.js',
   'lib/sql-wasm.js', 'lib/sql-wasm.wasm', 'manifest.webmanifest',
