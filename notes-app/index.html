@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#7a1f1f">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Заметки">
+  <title>Деловые заметки</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <button class="icon-btn" id="btnBack" aria-label="Назад" hidden>&#8592;</button>
+    <h1 id="screenTitle">Мои заметки</h1>
+    <span class="storage-badge" id="storageBadge" title="Текущее хранилище">SQLite</span>
+    <button class="icon-btn" id="btnSettings" aria-label="Настройки">&#9881;</button>
+  </header>
+
+  <main>
+    <!-- Список заметок -->
+    <section id="screenList" class="screen active">
+      <div class="search-box">
+        <input type="search" id="searchText" placeholder="Поиск по словам в заголовке и тексте" autocomplete="off">
+        <button class="icon-btn small" id="btnFilters" aria-label="Фильтры" aria-expanded="false">&#9776;<span class="badge" id="filterCount" hidden></span></button>
+      </div>
+      <div class="filters" id="filters" hidden>
+        <label>Дата с<input type="date" id="fDateFrom"></label>
+        <label>по<input type="date" id="fDateTo"></label>
+        <label>Время с<input type="time" id="fTimeFrom"></label>
+        <label>по<input type="time" id="fTimeTo"></label>
+        <label class="wide">Тип мероприятия
+          <select id="fCategory">
+            <option value="">Все</option>
+          </select>
+        </label>
+        <button class="btn secondary wide" id="btnResetFilters">Сбросить фильтры</button>
+      </div>
+      <div class="result-row">
+        <p class="result-info" id="resultInfo"></p>
+        <button class="link-btn" id="btnClearAll" hidden>Сбросить поиск</button>
+      </div>
+      <ul class="note-list" id="noteList"></ul>
+      <div class="empty" id="emptyState" hidden>
+        <p>Заметок пока нет.</p>
+        <p>Нажмите «+», чтобы записать итоги совещания или встречи.</p>
+      </div>
+      <button class="fab" id="btnAdd" aria-label="Новая заметка">+</button>
+    </section>
+
+    <!-- Просмотр заметки -->
+    <section id="screenView" class="screen">
+      <article class="note-view">
+        <h2 id="vTitle"></h2>
+        <p class="meta"><span id="vDate"></span> · <span id="vTime"></span> · <span id="vCategory"></span></p>
+        <div class="content" id="vContent"></div>
+        <p class="meta small" id="vUpdated"></p>
+      </article>
+      <div class="actions">
+        <button class="btn" id="btnEdit">Редактировать</button>
+        <button class="btn secondary" id="btnExportOne">Сохранить в файл</button>
+        <button class="btn danger" id="btnDelete">Удалить</button>
+      </div>
+    </section>
+
+    <!-- Создание и редактирование -->
+    <section id="screenEdit" class="screen">
+      <form id="noteForm" novalidate>
+        <label>Заголовок*
+          <input type="text" id="eTitle" maxlength="120" placeholder="Например: Планёрка администраторов" required>
+        </label>
+        <p class="error" id="eTitleError" hidden>Введите заголовок заметки</p>
+        <div class="row">
+          <label>Дата*<input type="date" id="eDate" required></label>
+          <label>Время*<input type="time" id="eTime" required></label>
+        </div>
+        <label>Тип мероприятия
+          <select id="eCategory"></select>
+        </label>
+        <label>Содержание
+          <textarea id="eContent" rows="10" placeholder="Повестка, решения, ответственные, сроки"></textarea>
+        </label>
+        <div class="actions">
+          <button type="submit" class="btn" id="btnSave">Сохранить</button>
+          <button type="button" class="btn secondary" id="btnCancel">Отмена</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Настройки -->
+    <section id="screenSettings" class="screen">
+      <h2>Где хранить заметки</h2>
+      <label class="radio">
+        <input type="radio" name="storage" value="sqlite" checked>
+        <span><b>База данных SQLite</b><br><small>Все заметки лежат в одном файле notes.sqlite на устройстве. Быстрый поиск SQL-запросом.</small></span>
+      </label>
+      <label class="radio">
+        <input type="radio" name="storage" value="files">
+        <span><b>Файлы на устройстве</b><br><small>Каждая заметка сохраняется отдельным файлом <code>.json</code> в папке приложения notes/.</small></span>
+      </label>
+      <p class="hint" id="storageInfo"></p>
+      <h2>Перенос данных</h2>
+      <div class="actions column">
+        <button class="btn secondary" id="btnCopyToOther">Скопировать заметки в другое хранилище</button>
+        <button class="btn secondary" id="btnExportAll">Выгрузить все заметки в файл (.json)</button>
+        <button class="btn secondary" id="btnExportDb">Скачать файл базы notes.sqlite</button>
+        <label class="btn secondary file-btn">Загрузить заметки из файла
+          <input type="file" id="importFile" accept=".json,.txt,application/json,text/plain" hidden>
+        </label>
+        <button class="btn secondary" id="btnDemo">Добавить примеры заметок</button>
+      </div>
+      <p class="hint">Версия 1.2. Работает без интернета после первого открытия.</p>
+    </section>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <dialog id="confirmDialog">
+    <p id="confirmText"></p>
+    <div class="actions">
+      <button class="btn danger" id="confirmYes">Да</button>
+      <button class="btn secondary" id="confirmNo">Отмена</button>
+    </div>
+  </dialog>
+
+  <script src="lib/sql-wasm.js"></script>
+  <script src="js/storage-sqlite.js"></script>
+  <script src="js/storage-files.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
