@@ -78,8 +78,15 @@ const SqliteStorage = (() => {
     });
   }
 
+  /* export() закрывает и заново открывает базу, функцию поиска нужно подключать снова */
+  function exportBytes() {
+    const bytes = db.export();
+    db.create_function('contains_text', containsText);
+    return bytes;
+  }
+
   async function persist() {
-    await writeBytes(db.export());
+    await writeBytes(exportBytes());
   }
 
   /* ---------- работа с данными ---------- */
@@ -160,7 +167,7 @@ const SqliteStorage = (() => {
   }
 
   function exportDb() {
-    return db.export();
+    return exportBytes();
   }
 
   return {
