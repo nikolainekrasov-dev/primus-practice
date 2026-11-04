@@ -1,0 +1,38 @@
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { margin: 0; font-family: "Segoe UI", Roboto, Arial, sans-serif; background: #f6f1ea; color: #2b2420; }
+header { background: #7a1f1f; color: #fff; padding: 16px 20px 0; }
+header h1 { margin: 0; font-size: 24px; }
+header p { margin: 4px 0 12px; opacity: .85; }
+nav { display: flex; gap: 4px; }
+.tab { border: 0; background: rgba(255,255,255,.15); color: #fff; padding: 10px 16px; border-radius: 10px 10px 0 0; font: inherit; cursor: pointer; }
+.tab.active { background: #f6f1ea; color: #7a1f1f; font-weight: 600; }
+main { max-width: 860px; margin: 0 auto; padding: 16px; }
+.panel { display: none; }
+.panel.active { display: block; }
+.card { background: #fff; border: 1px solid #e2d8cc; border-radius: 14px; padding: 18px 20px; margin-bottom: 14px; }
+.card h2 { margin: 0 0 10px; font-size: 19px; }
+.muted { color: #7d726a; font-size: 14px; }
+.progress { display: flex; gap: 6px; margin-bottom: 12px; }
+.progress span { flex: 1; height: 6px; border-radius: 3px; background: #e2d8cc; }
+.progress span.done { background: #a33a2e; }
+.option { display: flex; align-items: center; gap: 10px; padding: 11px 12px; border: 1px solid #e2d8cc; border-radius: 10px; margin: 8px 0; cursor: pointer; }
+.option:hover { background: #fbf6f0; }
+.option input { margin: 0; }
+.buttons { display: flex; gap: 10px; margin-top: 14px; flex-wrap: wrap; }
+.btn { border: 0; border-radius: 10px; padding: 11px 18px; font: inherit; font-weight: 600; cursor: pointer; background: #7a1f1f; color: #fff; }
+.btn.secondary { background: #fff; color: #7a1f1f; border: 1px solid #7a1f1f; }
+.btn:disabled { opacity: .45; cursor: default; }
+.why { margin-top: 12px; font-size: 14px; background: #fbf6f0; border-radius: 10px; padding: 10px 12px; }
+.why li { margin: 3px 0; }
+.rec { border-left: 5px solid #a33a2e; padding: 8px 12px; margin: 10px 0; background: #fbf6f0; border-radius: 0 10px 10px 0; }
+.rec h3 { margin: 0 0 4px; font-size: 17px; }
+.bar { height: 8px; border-radius: 4px; background: #e2d8cc; margin: 6px 0; }
+.bar i { display: block; height: 100%; border-radius: 4px; background: #a33a2e; }
+.advice { background: #fff6d6; border-radius: 10px; padding: 10px 12px; margin: 10px 0; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+th, td { border-bottom: 1px solid #eee3d8; padding: 7px 6px; text-align: left; vertical-align: top; }
+th { background: #f3e9df; }
+ol.trace { font-size: 14px; padding-left: 22px; }
+ol.trace li { margin: 5px 0; }
+.answers { font-size: 14px; color: #4f4640; }
