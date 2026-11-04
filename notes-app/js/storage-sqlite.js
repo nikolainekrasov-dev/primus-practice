@@ -101,11 +101,21 @@ const SqliteStorage = (() => {
     };
   }
 
+  /*
+   * Оператор LIKE в SQLite без расширения ICU не различает регистр только у латиницы,
+   * поэтому слова на русском ищет своя функция: она приводит текст к нижнему регистру
+   * и сравнивает его с запросом буквально, символы % и _ в запросе не считаются шаблоном.
+   */
+  function containsText(text, query) {
+    return String(text).toLowerCase().includes(String(query).toLowerCase()) ? 1 : 0;
+  }
+
   async function init() {
     if (db) return;
     const SQL = await initSqlJs({ locateFile: f => 'lib/' + f });
     const bytes = await readBytes();
     db = bytes && bytes.length ? new SQL.Database(bytes) : new SQL.Database();
+    db.create_function('contains_text', containsText);
     db.exec(SCHEMA);
     await persist();
   }
@@ -114,8 +124,8 @@ const SqliteStorage = (() => {
     const where = [];
     const p = [];
     if (f.text) {
-      where.push('(title LIKE ? OR content LIKE ?)');
-      p.push('%' + f.text + '%', '%' + f.text + '%');
+      where.push('(contains_text(title, ?) OR contains_text(content, ?))');
+      p.push(f.text, f.text);
     }
     if (f.dateFrom) { where.push('note_date >= ?'); p.push(f.dateFrom); }
     if (f.dateTo)   { where.push('note_date <= ?'); p.push(f.dateTo); }
