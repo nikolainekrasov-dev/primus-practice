@@ -79,6 +79,7 @@
       '<h2>Рекомендация</h2>' +
       '<p class="answers">' + qs.map(q => esc(q.attr) + ': ' + esc(label(q.attr, answers[q.attr]))).join(' · ') + '</p>' +
       recs + advice +
+      '<p class="muted">' + esc(KB.catalogueNote) + '</p>' +
       '<div class="buttons">' +
       '<button class="btn secondary" id="btnHow">Как получен вывод?</button>' +
       '<button class="btn secondary" id="btnChange">Изменить ответы</button>' +
@@ -95,6 +96,7 @@
     $('rulesTable').querySelector('tbody').innerHTML = KB.rules.map(r =>
       '<tr><td>' + r.id + '</td><td><b>' + esc(r.name) + '.</b> ' + esc(Engine.describe(r, KB.labels)) + '</td><td>' + (r.salience || 0) + '</td></tr>'
     ).join('');
+    $('catalogueNote').textContent = KB.catalogueNote;
     $('catalogueTable').querySelector('tbody').innerHTML = Object.values(KB.catalogue).map(c =>
       '<tr><td>' + esc(c.name) + '</td><td>' + esc(c.items) + '</td><td>' + esc(c.serve) + '</td></tr>'
     ).join('');
