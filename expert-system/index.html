@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Пивной сомелье - экспертная система</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <h1>Пивной сомелье</h1>
+    <p>Экспертная система подбора пива к заказу гостя</p>
+    <nav>
+      <button class="tab active" data-tab="consult">Консультация</button>
+      <button class="tab" data-tab="kb">База знаний</button>
+    </nav>
+  </header>
+
+  <main>
+    <section id="consult" class="panel active">
+      <div id="progress" class="progress"></div>
+      <div id="question" class="card"></div>
+      <div id="result" class="card" hidden></div>
+    </section>
+
+    <section id="kb" class="panel">
+      <div class="card">
+        <h2>Правила базы знаний</h2>
+        <p class="muted">КУ - коэффициент уверенности заключения. Приоритет определяет порядок срабатывания при конфликте правил.</p>
+        <table id="rulesTable">
+          <thead><tr><th>№</th><th>Правило</th><th>Приоритет</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <div class="card">
+        <h2>Каталог рекомендаций</h2>
+        <table id="catalogueTable">
+          <thead><tr><th>Стиль</th><th>Позиции барной карты</th><th>Подача</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script src="js/engine.js"></script>
+  <script src="js/kb.js"></script>
+  <script src="js/ui.js"></script>
+</body>
+</html>
